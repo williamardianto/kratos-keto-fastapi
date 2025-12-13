@@ -85,7 +85,7 @@ services:
     networks:
       - intranet
     ports:
-      - "4455:4455"
+      - "4455:3000"
     restart: on-failure
 
   mailslurper:

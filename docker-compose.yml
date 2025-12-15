@@ -6,7 +6,7 @@ services:
     depends_on:
       - kratos
     ports:
-      - 8080:4455
+      - 4455:4455
       - 4456:4456
     command: serve proxy -c "/etc/config/oathkeeper/oathkeeper.yml"
     environment:
@@ -17,20 +17,14 @@ services:
     volumes:
       - ./oathkeeper:/etc/config/oathkeeper
 
-  # fastapi:
-  #   build:
-  #     context: .
-  #   image: "kratos-keto-fastapi-development"
-  #   environment:
-  #     - FASTAPI_APP=main.py
-  #     - FASTAPI_ENV=development
-  #   networks:
-  #     - intranet
-  #   restart: on-failure
-  #   volumes:
-  #     - type: bind
-  #       source: ./
-  #       target: /app
+  fastapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: "kratos-keto-fastapi"
+    networks:
+      - intranet
+    restart: on-failure
 
   postgres-kratos:
     image: postgres:17
@@ -85,7 +79,7 @@ services:
     networks:
       - intranet
     ports:
-      - "4455:3000"
+      - "3000:3000"
     restart: on-failure
 
   mailslurper:

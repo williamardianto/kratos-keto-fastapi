@@ -1,0 +1,29 @@
+# Exclude virtual environment - use the one created inside Docker
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Exclude git files
+.git/
+.gitignore
+
+# Exclude IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Exclude Docker files
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Exclude other unnecessary files
+*.log
+.DS_Store
+

@@ -30,7 +30,7 @@ errors:
     redirect:
       enabled: true
       config:
-        to: http://127.0.0.1:4455/auth/login
+        to: http://127.0.0.1:3000/auth/login
         when:
           - error:
               - unauthorized
@@ -45,7 +45,6 @@ errors:
         verbose: true
 
 access_rules:
-  matching_strategy: glob
   repositories:
     - file:///etc/config/oathkeeper/access-rules.yml
 

@@ -17,14 +17,14 @@ services:
     volumes:
       - ./oathkeeper:/etc/config/oathkeeper
 
-  fastapi:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: "kratos-keto-fastapi"
-    networks:
-      - intranet
-    restart: on-failure
+  # fastapi:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   image: "kratos-keto-fastapi"
+  #   networks:
+  #     - intranet
+  #   restart: on-failure
 
   postgres-kratos:
     image: postgres:17
@@ -133,6 +133,32 @@ services:
     networks:
       - intranet
     command: serve -c /home/ory/keto.yml
+
+  keto-init:
+    image: oryd/keto:v25.4.0
+    volumes:
+      - type: bind
+        source: ./keto
+        target: /home/ory
+    entrypoint: /bin/sh
+    command: 
+      - -c
+      - |
+        until wget --spider -q http://keto:4466/health/ready 2>/dev/null; do
+          echo "Waiting for Keto to be ready..."
+          sleep 2
+        done
+        echo "Keto is ready, creating relation tuples..."
+        keto relation-tuple create /home/ory/permissions/roles.json \
+          --write-remote keto:4467 \
+          --insecure-disable-transport-security
+    depends_on:
+      - keto
+    environment:
+      - KETO_WRITE_REMOTE=keto:4467
+    networks:
+      - intranet
+    restart: on-failure
 
 networks:
   intranet:

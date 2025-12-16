@@ -1,0 +1,8 @@
+[
+    {
+        "namespace": "app",
+        "object": "admin",
+        "relation": "member",
+        "subject_id": "will.ardiant@gmail.com"
+    }
+]
